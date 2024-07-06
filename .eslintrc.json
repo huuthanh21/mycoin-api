@@ -1,0 +1,7 @@
+{
+	"plugins": ["perfectionist"],
+	"extends": ["plugin:perfectionist/recommended-natural"],
+	"rules": {
+		"perfectionist/sort-interfaces": "error"
+	}
+}
