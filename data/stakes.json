@@ -1,0 +1,110 @@
+[
+	{
+		"address": "0x1",
+		"stake": 1000
+	},
+	{
+		"address": "0x2",
+		"stake": 2000
+	},
+	{
+		"address": "0x3",
+		"stake": 3000
+	},
+	{
+		"address": "0x4",
+		"stake": 4000
+	},
+	{
+		"address": "0x5",
+		"stake": 5000
+	},
+	{
+		"address": "0x6",
+		"stake": 6000
+	},
+	{
+		"address": "0x7",
+		"stake": 7000
+	},
+	{
+		"address": "0x8",
+		"stake": 8000
+	},
+	{
+		"address": "0x9",
+		"stake": 9000
+	},
+	{
+		"address": "0x10",
+		"stake": 10000
+	},
+	{
+		"address": "0x11",
+		"stake": 11000
+	},
+	{
+		"address": "0x12",
+		"stake": 12000
+	},
+	{
+		"address": "0x13",
+		"stake": 13000
+	},
+	{
+		"address": "0x14",
+		"stake": 14000
+	},
+	{
+		"address": "0x15",
+		"stake": 15000
+	},
+	{
+		"address": "0x16",
+		"stake": 16000
+	},
+	{
+		"address": "0x17",
+		"stake": 17000
+	},
+	{
+		"address": "0x18",
+		"stake": 18000
+	},
+	{
+		"address": "0x19",
+		"stake": 19000
+	},
+	{
+		"address": "0x20",
+		"stake": 20000
+	},
+	{
+		"address": "0x21",
+		"stake": 21000
+	},
+	{
+		"address": "0x22",
+		"stake": 22000
+	},
+	{
+		"address": "0x23",
+		"stake": 23000
+	},
+	{
+		"address": "0x24",
+		"stake": 24000
+	},
+	{
+		"address": "0x25",
+		"stake": 25000
+	},
+	{
+		"address": "0x26",
+		"stake": 26000
+	},
+	{
+		"address": "0x27",
+		"stake": 27000
+	}
+]
