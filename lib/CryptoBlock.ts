@@ -10,7 +10,7 @@ type CryptoBlockInput = {
 	index: number;
 	timestamp: string;
 	data: CryptoBlockData | string;
-	precedingHash: string;
+	precedingHash?: string;
 };
 
 class CryptoBlock {

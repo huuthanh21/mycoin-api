@@ -12,7 +12,7 @@ class CryptoBlockchain {
 			index: 0,
 			timestamp: "01/01/2021",
 			data: "Initial Block in the Chain",
-			precedingHash: " ",
+			precedingHash: "0",
 		});
 	}
 
