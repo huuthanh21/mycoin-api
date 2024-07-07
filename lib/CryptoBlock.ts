@@ -6,12 +6,11 @@ type CryptoBlockData = {
 	recipient: string;
 };
 
-type CryptoBlockType = {
+type CryptoBlockInput = {
 	index: number;
 	timestamp: string;
 	data: CryptoBlockData | string;
 	precedingHash: string;
-	hash: string;
 };
 
 class CryptoBlock {
@@ -26,7 +25,7 @@ class CryptoBlock {
 		timestamp,
 		data,
 		precedingHash = " ",
-	}: CryptoBlockType) {
+	}: CryptoBlockInput) {
 		this.index = index;
 		this.timestamp = timestamp;
 		this.data = data;
@@ -43,3 +42,5 @@ class CryptoBlock {
 		).toString();
 	}
 }
+
+export { CryptoBlock, CryptoBlockData, CryptoBlockInput };
