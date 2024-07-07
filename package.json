@@ -5,7 +5,7 @@
 	"scripts": {
 		"build": "npx tsc",
 		"start": "node dist/bin/www.js",
-		"dev": "nodemon /bin/www.ts"
+		"dev": "nodemon"
 	},
 	"dependencies": {
 		"cookie-parser": "~1.4.4",
