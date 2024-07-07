@@ -76,4 +76,3 @@ function onListening() {
         : "unknown";
     debug("Listening on " + bind);
 }
-exports.default = server;
