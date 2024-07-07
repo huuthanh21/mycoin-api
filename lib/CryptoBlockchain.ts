@@ -26,3 +26,5 @@ class CryptoBlockchain {
 		this.blockchain.push(newBlock);
 	}
 }
+
+export default CryptoBlockchain;
