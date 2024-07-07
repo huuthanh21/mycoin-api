@@ -7,8 +7,8 @@ exports.initializeBlockchain = initializeBlockchain;
 const CryptoBlock_1 = require("../lib/CryptoBlock");
 const CryptoBlockchain_1 = __importDefault(require("../lib/CryptoBlockchain"));
 function initializeBlockchain() {
-    let smashingCoin = new CryptoBlockchain_1.default();
-    smashingCoin.addNewBlock(new CryptoBlock_1.CryptoBlock({
+    let mycoin = new CryptoBlockchain_1.default();
+    mycoin.addNewBlock(new CryptoBlock_1.CryptoBlock({
         index: 1,
         timestamp: "01/06/2020",
         data: {
@@ -17,7 +17,7 @@ function initializeBlockchain() {
             quantity: 100,
         },
     }));
-    smashingCoin.addNewBlock(new CryptoBlock_1.CryptoBlock({
+    mycoin.addNewBlock(new CryptoBlock_1.CryptoBlock({
         index: 2,
         timestamp: "01/07/2020",
         data: {
@@ -26,5 +26,5 @@ function initializeBlockchain() {
             quantity: 100,
         },
     }));
-    return smashingCoin;
+    return mycoin;
 }

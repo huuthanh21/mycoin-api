@@ -2,8 +2,8 @@ import { CryptoBlock } from "../lib/CryptoBlock";
 import CryptoBlockchain from "../lib/CryptoBlockchain";
 
 export function initializeBlockchain(): CryptoBlockchain {
-	let smashingCoin = new CryptoBlockchain();
-	smashingCoin.addNewBlock(
+	let mycoin = new CryptoBlockchain();
+	mycoin.addNewBlock(
 		new CryptoBlock({
 			index: 1,
 			timestamp: "01/06/2020",
@@ -14,7 +14,7 @@ export function initializeBlockchain(): CryptoBlockchain {
 			},
 		})
 	);
-	smashingCoin.addNewBlock(
+	mycoin.addNewBlock(
 		new CryptoBlock({
 			index: 2,
 			timestamp: "01/07/2020",
@@ -25,5 +25,5 @@ export function initializeBlockchain(): CryptoBlockchain {
 			},
 		})
 	);
-	return smashingCoin;
+	return mycoin;
 }

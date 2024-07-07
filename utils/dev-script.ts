@@ -1,7 +1,7 @@
 import { initializeBlockchain } from "./initBlockchain";
 
 export default function runDevScript() {
-	const smashingCoin = initializeBlockchain();
-	console.log(JSON.stringify(smashingCoin, null, 4));
-	console.log("Is blockchain valid? " + smashingCoin.checkChainValidity());
+	const mycoin = initializeBlockchain();
+	console.log(JSON.stringify(mycoin, null, 4));
+	console.log("Is blockchain valid? " + mycoin.checkChainValidity());
 }
