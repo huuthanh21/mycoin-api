@@ -5,4 +5,5 @@ const initBlockchain_1 = require("./initBlockchain");
 function runDevScript() {
     const smashingCoin = (0, initBlockchain_1.initializeBlockchain)();
     console.log(JSON.stringify(smashingCoin, null, 4));
+    console.log("Is blockchain valid? " + smashingCoin.checkChainValidity());
 }
