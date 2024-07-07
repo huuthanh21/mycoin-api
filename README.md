@@ -8,4 +8,4 @@
 
 ## Development
 
-1. Run `npm run dev`
+1. Run `$env:DEBUG='mycoin-api:*'; npm run dev`
