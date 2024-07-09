@@ -1,9 +1,12 @@
 import * as fs from "fs";
+import path from "path";
 import { CryptoBlock } from "../lib/CryptoBlock";
 import CryptoBlockchain from "../lib/CryptoBlockchain";
 
 export function initializeBlockchain(): CryptoBlockchain {
-	const stakesData = JSON.parse(fs.readFileSync("../data/stakes.json", "utf8"));
+	const stakesData = JSON.parse(
+		fs.readFileSync(path.resolve(__dirname, "../../data/stakes.json"), "utf-8")
+	);
 
 	let mycoin = new CryptoBlockchain();
 	for (const item of stakesData) {
@@ -34,7 +37,10 @@ export function initializeBlockchain(): CryptoBlockchain {
 	);
 
 	const postStakes = [...mycoin.validators.values()];
-	fs.writeFileSync("../data/stakes.json", JSON.stringify(postStakes, null, 4));
+	fs.writeFileSync(
+		path.resolve(__dirname, "../../data/stakes.json"),
+		JSON.stringify(postStakes, null, 4)
+	);
 
 	console.log("Blockchain initialized with 2 blocks.");
 
