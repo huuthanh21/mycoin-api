@@ -5,7 +5,7 @@ import CryptoBlockchain from "../lib/CryptoBlockchain";
 
 export function initializeBlockchain(): CryptoBlockchain {
 	const stakesData = JSON.parse(
-		fs.readFileSync(path.resolve(__dirname, "../../data/stakes.json"), "utf-8")
+		fs.readFileSync(path.join(process.cwd(), "data/stakes.json"), "utf-8")
 	);
 
 	let mycoin = new CryptoBlockchain();
@@ -38,7 +38,7 @@ export function initializeBlockchain(): CryptoBlockchain {
 
 	const postStakes = [...mycoin.validators.values()];
 	fs.writeFileSync(
-		path.resolve(__dirname, "../../data/stakes.json"),
+		path.join(process.cwd(), "data/stakes.json"),
 		JSON.stringify(postStakes, null, 4)
 	);
 
