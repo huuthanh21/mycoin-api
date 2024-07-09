@@ -74,7 +74,7 @@ class CryptoBlockchain {
 		this.blockchain.push(newBlock);
 
 		// Update the stake of the validator
-		this.validators.get(validator)!.stake++;
+		this.validators.get(validator)!.stake += 0.1;
 	}
 
 	checkChainValidity(): boolean {

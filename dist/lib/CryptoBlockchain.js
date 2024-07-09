@@ -51,7 +51,7 @@ class CryptoBlockchain {
         const newBlock = new CryptoBlock_1.CryptoBlock(Object.assign(Object.assign({}, data), { precedingHash: this.obtainLatestBlock().hash }));
         this.blockchain.push(newBlock);
         // Update the stake of the validator
-        this.validators.get(validator).stake++;
+        this.validators.get(validator).stake += 0.1;
     }
     checkChainValidity() {
         for (let i = 1; i < this.blockchain.length; i++) {
