@@ -31,7 +31,7 @@ const fs = __importStar(require("fs"));
 const CryptoBlock_1 = require("../lib/CryptoBlock");
 const CryptoBlockchain_1 = __importDefault(require("../lib/CryptoBlockchain"));
 function initializeBlockchain() {
-    const stakesData = JSON.parse(fs.readFileSync("./data/stakes.json", "utf8"));
+    const stakesData = JSON.parse(fs.readFileSync("../data/stakes.json", "utf8"));
     let mycoin = new CryptoBlockchain_1.default();
     for (const item of stakesData) {
         mycoin.addValidator(item.address, item.stake);
@@ -55,7 +55,7 @@ function initializeBlockchain() {
         },
     }));
     const postStakes = [...mycoin.validators.values()];
-    fs.writeFileSync("./data/stakes.json", JSON.stringify(postStakes, null, 4));
+    fs.writeFileSync("../data/stakes.json", JSON.stringify(postStakes, null, 4));
     console.log("Blockchain initialized with 2 blocks.");
     return mycoin;
 }
