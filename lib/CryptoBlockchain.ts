@@ -9,11 +9,13 @@ class CryptoBlockchain {
 	blockchain: CryptoBlock[];
 	validators: Map<string, Validator>;
 	minimumStake: number;
+	reward: number;
 
 	constructor() {
 		this.blockchain = [this.startGenesisBlock()];
 		this.validators = new Map();
-		this.minimumStake = 1;
+		this.minimumStake = 0.1;
+		this.reward = 0.1;
 	}
 
 	startGenesisBlock(): CryptoBlock {
@@ -62,6 +64,13 @@ class CryptoBlockchain {
 		throw new Error("No validator selected");
 	}
 
+	rewardValidator(address: string) {
+		const newStake = Number(
+			(this.validators.get(address)!.stake + this.reward).toFixed(8)
+		);
+		this.validators.set(address, { address, stake: newStake });
+	}
+
 	addNewBlock(data: CryptoBlockInput) {
 		// Select a validator
 		const validator = this.selectValidator();
@@ -74,7 +83,7 @@ class CryptoBlockchain {
 		this.blockchain.push(newBlock);
 
 		// Update the stake of the validator
-		this.validators.get(validator)!.stake += 0.1;
+		return this.rewardValidator(validator);
 	}
 
 	checkChainValidity(): boolean {
