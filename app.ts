@@ -20,8 +20,5 @@ app.get("/", (req: Request, res: Response) => {
 	res.send("Hello World!");
 });
 
-// Run the dev script
-runDevScript();
-
 export default app;
 

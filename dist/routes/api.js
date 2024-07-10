@@ -16,10 +16,14 @@ const postgres_1 = require("@vercel/postgres");
 const express_1 = require("express");
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
+const dev_script_1 = __importDefault(require("../utils/dev-script"));
 const router = (0, express_1.Router)();
 /* GET api page. */
 router.get("/", (req, res) => {
     res.json({ title: "Express" });
+});
+router.get("/dev-script", (req, res) => {
+    (0, dev_script_1.default)();
 });
 router.get("/db/create-stakes-table.ts", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
