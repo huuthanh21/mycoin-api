@@ -23,7 +23,9 @@ router.get("/", (req, res) => {
     res.json({ title: "Express" });
 });
 router.get("/dev-script", (req, res) => {
-    (0, dev_script_1.default)();
+    (0, dev_script_1.default)().then((result) => {
+        res.json({ result });
+    });
 });
 router.get("/db/create-stakes-table.ts", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

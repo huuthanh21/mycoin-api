@@ -12,7 +12,9 @@ router.get("/", (req: Request, res: Response) => {
 });
 
 router.get("/dev-script", (req: Request, res: Response) => {
-	runDevScript();
+	runDevScript().then((result) => {
+		res.json({ result });
+	});
 });
 
 router.get(
