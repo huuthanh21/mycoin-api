@@ -4,6 +4,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
 import apiRouter from "./routes/api";
+import walletRouter from "./routes/wallet";
 import runDevScript from "./utils/dev-script";
 
 const app = express();
@@ -15,10 +16,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api", apiRouter);
+app.use("/wallet", walletRouter);
 
 app.get("/", (req: Request, res: Response) => {
 	res.send("Hello World!");
 });
 
 export default app;
-
