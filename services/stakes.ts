@@ -7,6 +7,16 @@ async function getValidators(): Promise<any> {
 	return filtered;
 }
 
+async function insertStake(address: string, amount: number): Promise<boolean> {
+	const result =
+		await sql`INSERT INTO Stakes (address, stake) VALUES (${address}, ${amount})`;
+
+	if (result.rowCount !== 1) return false;
+
+	console.info(`Inserted stake for ${address} with amount ${amount}`);
+	return true;
+}
+
 async function getStakeAmount(address: string): Promise<number> {
 	const result = await sql`SELECT stake FROM Stakes WHERE address = ${address}`;
 
@@ -28,4 +38,4 @@ async function updateStakeAmount(
 	return true;
 }
 
-export { getStakeAmount, getValidators, updateStakeAmount };
+export { getStakeAmount, getValidators, insertStake, updateStakeAmount };

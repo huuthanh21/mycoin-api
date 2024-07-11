@@ -22,8 +22,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Wallet = void 0;
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const bip39 = __importStar(require("bip39"));
 const crypto_1 = require("crypto");
 const keccak_1 = require("ethereum-cryptography/keccak");
@@ -36,9 +40,32 @@ class Wallet {
         this.address = this.deriveAddress();
         this.mnemonic = mnemonic;
     }
+    static randomPrivateKey() {
+        return (0, utils_1.bytesToHex)((0, crypto_1.randomBytes)(32));
+    }
+    static randomMnemonic() {
+        return bip39.generateMnemonic();
+    }
     static createRandom() {
         const privateKey = (0, crypto_1.randomBytes)(32);
         return new Wallet(privateKey);
+    }
+    static fromPrivateKey(privateKeyHex) {
+        // Remove '0x' prefix if present
+        const cleanPrivateKeyHex = privateKeyHex.startsWith("0x")
+            ? privateKeyHex.slice(2)
+            : privateKeyHex;
+        // Validate private key length
+        if (cleanPrivateKeyHex.length !== 64) {
+            throw new Error("Invalid private key length");
+        }
+        // Convert hex string to Uint8Array
+        const privateKeyBytes = (0, utils_1.hexToBytes)(cleanPrivateKeyHex);
+        // Validate the private key
+        if (!secp256k1_1.secp256k1.utils.isValidPrivateKey(privateKeyBytes)) {
+            throw new Error("Invalid private key");
+        }
+        return new Wallet(privateKeyBytes);
     }
     static mnemonicToPrivateKey(mnemonic) {
         // Convert mnemonic to seed
@@ -70,6 +97,10 @@ class Wallet {
     getPrivateKey() {
         return (0, utils_1.bytesToHex)(this.privateKey);
     }
+    getEncryptedPrivateKey() {
+        const encryptedPrivateKey = bcrypt_1.default.hashSync(this.getPrivateKey(), 10);
+        return encryptedPrivateKey;
+    }
     getMnemonic() {
         if (this.mnemonic === null) {
             throw new Error("Mnemonic not available");
@@ -78,9 +109,12 @@ class Wallet {
     }
     logWallet() {
         console.log("Private key:", this.getPrivateKey());
+        console.log("Encrypted private key:", this.getEncryptedPrivateKey());
         console.log("Public key:", this.publicKey);
         console.log("Address:", this.address);
-        console.log("Mnemonic:", this.getMnemonic());
+        if (this.mnemonic) {
+            console.log("Mnemonic:", this.mnemonic);
+        }
     }
 }
 exports.Wallet = Wallet;

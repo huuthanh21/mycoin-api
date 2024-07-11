@@ -8,6 +8,7 @@ const path_1 = __importDefault(require("path"));
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const api_1 = __importDefault(require("./routes/api"));
+const wallet_1 = __importDefault(require("./routes/wallet"));
 const app = (0, express_1.default)();
 app.use(logger("dev"));
 app.use(express_1.default.json());
@@ -15,6 +16,7 @@ app.use(express_1.default.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
 app.use("/api", api_1.default);
+app.use("/wallet", wallet_1.default);
 app.get("/", (req, res) => {
     res.send("Hello World!");
 });

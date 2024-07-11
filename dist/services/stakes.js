@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getStakeAmount = getStakeAmount;
 exports.getValidators = getValidators;
+exports.insertStake = insertStake;
 exports.updateStakeAmount = updateStakeAmount;
 const postgres_1 = require("@vercel/postgres");
 const constants_1 = require("../config/constants");
@@ -19,6 +20,15 @@ function getValidators() {
         const result = yield (0, postgres_1.sql) `SELECT * FROM Stakes`;
         const filtered = result.rows.filter((row) => row.stake > constants_1.MINIMUM_STAKE);
         return filtered;
+    });
+}
+function insertStake(address, amount) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const result = yield (0, postgres_1.sql) `INSERT INTO Stakes (address, stake) VALUES (${address}, ${amount})`;
+        if (result.rowCount !== 1)
+            return false;
+        console.info(`Inserted stake for ${address} with amount ${amount}`);
+        return true;
     });
 }
 function getStakeAmount(address) {

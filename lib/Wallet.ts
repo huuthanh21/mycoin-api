@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import * as bip39 from "bip39";
 import { pbkdf2Sync, randomBytes } from "crypto";
 import { keccak256 } from "ethereum-cryptography/keccak";
@@ -17,9 +18,39 @@ class Wallet {
 		this.mnemonic = mnemonic;
 	}
 
+	static randomPrivateKey(): string {
+		return bytesToHex(randomBytes(32));
+	}
+
+	static randomMnemonic(): string {
+		return bip39.generateMnemonic();
+	}
+
 	static createRandom(): Wallet {
 		const privateKey = randomBytes(32);
 		return new Wallet(privateKey);
+	}
+
+	static fromPrivateKey(privateKeyHex: string): Wallet {
+		// Remove '0x' prefix if present
+		const cleanPrivateKeyHex = privateKeyHex.startsWith("0x")
+			? privateKeyHex.slice(2)
+			: privateKeyHex;
+
+		// Validate private key length
+		if (cleanPrivateKeyHex.length !== 64) {
+			throw new Error("Invalid private key length");
+		}
+
+		// Convert hex string to Uint8Array
+		const privateKeyBytes = hexToBytes(cleanPrivateKeyHex);
+
+		// Validate the private key
+		if (!secp256k1.utils.isValidPrivateKey(privateKeyBytes)) {
+			throw new Error("Invalid private key");
+		}
+
+		return new Wallet(privateKeyBytes);
 	}
 
 	static mnemonicToPrivateKey(mnemonic: string): Uint8Array {
@@ -60,6 +91,11 @@ class Wallet {
 		return bytesToHex(this.privateKey);
 	}
 
+	getEncryptedPrivateKey(): string {
+		const encryptedPrivateKey = bcrypt.hashSync(this.getPrivateKey(), 10);
+		return encryptedPrivateKey;
+	}
+
 	getMnemonic(): string {
 		if (this.mnemonic === null) {
 			throw new Error("Mnemonic not available");
@@ -69,9 +105,12 @@ class Wallet {
 
 	logWallet(): void {
 		console.log("Private key:", this.getPrivateKey());
+		console.log("Encrypted private key:", this.getEncryptedPrivateKey());
 		console.log("Public key:", this.publicKey);
 		console.log("Address:", this.address);
-		console.log("Mnemonic:", this.getMnemonic());
+		if (this.mnemonic) {
+			console.log("Mnemonic:", this.mnemonic);
+		}
 	}
 }
 
