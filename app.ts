@@ -3,11 +3,14 @@ import path from "path";
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
+import cors from "cors";
 import apiRouter from "./routes/api";
 import walletRouter from "./routes/wallet";
 import runDevScript from "./utils/dev-script";
 
 const app = express();
+
+app.use(cors());
 
 app.use(logger("dev"));
 app.use(express.json());
