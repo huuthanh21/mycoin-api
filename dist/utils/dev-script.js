@@ -10,11 +10,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = runDevScript;
-const initBlockchain_1 = require("./initBlockchain");
+const Wallet_1 = require("../lib/Wallet");
 function runDevScript() {
     return __awaiter(this, void 0, void 0, function* () {
         // apiTest();
-        const mycoin = yield (0, initBlockchain_1.initializeBlockchain)();
-        return JSON.stringify(mycoin, null, 4);
+        // const mycoin = await initializeBlockchain();
+        // return JSON.stringify(mycoin, null, 4);
+        const wallet = Wallet_1.Wallet.fromMnemonic("candy maple cake sugar pudding cream honey rich smooth crumble sweet treat");
+        wallet.logWallet();
+        return "Hello, world!";
     });
 }
