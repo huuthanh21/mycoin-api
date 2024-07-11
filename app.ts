@@ -4,6 +4,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
 import apiRouter from "./routes/api";
+import runDevScript from "./utils/dev-script";
 
 const app = express();
 
