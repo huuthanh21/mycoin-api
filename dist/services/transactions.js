@@ -9,8 +9,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const postgres_1 = require("@vercel/postgres");
 const stakes_1 = require("./stakes");
 const wallets_1 = require("./wallets");
+function insertTransaction(sender, recipient, amount) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const result = yield (0, postgres_1.sql) `
+		INSERT INTO Transactions (sender, recipient, amount)
+		VALUES (${sender}, ${recipient}, ${amount})
+		RETURNING *;
+	`;
+        return result.rows[0];
+    });
+}
 function sendTransaction(sender, recipient, amount, privateKey) {
     return __awaiter(this, void 0, void 0, function* () {
         // Get sender's wallet
@@ -30,6 +41,14 @@ function sendTransaction(sender, recipient, amount, privateKey) {
         yield (0, stakes_1.updateStakeAmount)(sender, senderWallet.stake - amount);
         // Update recipient's stake
         yield (0, stakes_1.updateStakeAmount)(recipient, recipientWallet.stake + amount);
-        return { sender, recipient, amount };
+        // Insert transaction
+        const result = yield insertTransaction(sender, recipient, amount);
+        const transaction = {
+            sender,
+            recipient,
+            amount,
+            timestamp: result.timestamp,
+        };
+        return transaction;
     });
 }
