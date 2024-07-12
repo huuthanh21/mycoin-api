@@ -32,7 +32,11 @@ router.get("/random-mnemonic", (req, res) => {
 router.get("/getFromPrivateKey/:privateKey", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const privateKey = req.params.privateKey;
-        return res.status(200).json(yield (0, wallets_1.getWalletWithPrivateKey)(privateKey));
+        const wallet = yield (0, wallets_1.getWalletWithPrivateKey)(privateKey);
+        if (!wallet) {
+            return res.status(404).json({ error: "Wallet not found" });
+        }
+        return res.status(200).json(wallet);
     }
     catch (error) {
         return res.status(500).json({ error });

@@ -29,7 +29,11 @@ router.get(
 	async (req: Request, res: Response) => {
 		try {
 			const privateKey = req.params.privateKey;
-			return res.status(200).json(await getWalletWithPrivateKey(privateKey));
+			const wallet = await getWalletWithPrivateKey(privateKey);
+			if (!wallet) {
+				return res.status(404).json({ error: "Wallet not found" });
+			}
+			return res.status(200).json(wallet);
 		} catch (error) {
 			return res.status(500).json({ error });
 		}
