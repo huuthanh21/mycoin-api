@@ -1,5 +1,3 @@
-import * as fs from "fs";
-import path from "path";
 import { CryptoBlock } from "../lib/CryptoBlock";
 import CryptoBlockchain from "../lib/CryptoBlockchain";
 import { getValidators } from "../services/stakes";
@@ -14,7 +12,7 @@ export async function initializeBlockchain(): Promise<CryptoBlockchain> {
 		mycoin.addValidator(item.address, item.stake);
 	}
 
-	mycoin.addNewBlock(
+	await mycoin.addNewBlock(
 		new CryptoBlock({
 			index: 1,
 			timestamp: "01/06/2020",
@@ -25,7 +23,8 @@ export async function initializeBlockchain(): Promise<CryptoBlockchain> {
 			},
 		})
 	);
-	mycoin.addNewBlock(
+
+	await mycoin.addNewBlock(
 		new CryptoBlock({
 			index: 2,
 			timestamp: "01/07/2020",

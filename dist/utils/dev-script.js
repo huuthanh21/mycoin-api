@@ -8,9 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = runDevScript;
-const Wallet_1 = require("../lib/Wallet");
+const BlockchainSingleton_1 = __importDefault(require("../lib/BlockchainSingleton"));
+const CryptoBlock_1 = require("../lib/CryptoBlock");
 function runDevScript() {
     return __awaiter(this, void 0, void 0, function* () {
         // apiTest();
@@ -20,10 +24,24 @@ function runDevScript() {
         // 	"candy maple cake sugar pudding cream honey rich smooth crumble sweet treat"
         // );
         // wallet.logWallet();
-        // const wallet2 = Wallet.fromPrivateKey(wallet.getPrivateKey());
-        // wallet2.logWallet();
-        const mnemonic = Wallet_1.Wallet.randomMnemonic();
-        console.log(mnemonic);
+        try {
+            const blockchain = yield BlockchainSingleton_1.default.getInstance();
+            // get last block
+            const lastBlock = blockchain.obtainLatestBlock();
+            blockchain.addNewBlock(new CryptoBlock_1.CryptoBlock({
+                index: lastBlock.index + 1,
+                timestamp: "01/06/2020",
+                data: {
+                    sender: "Huu Thanh",
+                    recipient: "Thien",
+                    quantity: 100,
+                },
+            }));
+            console.log("Added 1 block");
+        }
+        catch (error) {
+            console.error("Failed to add block:", error);
+        }
         return "Hello, world!";
     });
 }

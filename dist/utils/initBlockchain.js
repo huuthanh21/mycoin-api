@@ -25,7 +25,7 @@ function initializeBlockchain() {
         for (const item of stakesData) {
             mycoin.addValidator(item.address, item.stake);
         }
-        mycoin.addNewBlock(new CryptoBlock_1.CryptoBlock({
+        yield mycoin.addNewBlock(new CryptoBlock_1.CryptoBlock({
             index: 1,
             timestamp: "01/06/2020",
             data: {
@@ -34,7 +34,7 @@ function initializeBlockchain() {
                 quantity: 100,
             },
         }));
-        mycoin.addNewBlock(new CryptoBlock_1.CryptoBlock({
+        yield mycoin.addNewBlock(new CryptoBlock_1.CryptoBlock({
             index: 2,
             timestamp: "01/07/2020",
             data: {
