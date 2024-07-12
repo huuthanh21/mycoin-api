@@ -13,9 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.initializeBlockchain = initializeBlockchain;
-const CryptoBlock_1 = require("../lib/CryptoBlock");
 const CryptoBlockchain_1 = __importDefault(require("../lib/CryptoBlockchain"));
 const stakes_1 = require("../services/stakes");
+const transactions_1 = require("../services/transactions");
 function initializeBlockchain() {
     return __awaiter(this, void 0, void 0, function* () {
         console.log("Fetching validators...");
@@ -25,25 +25,14 @@ function initializeBlockchain() {
         for (const item of stakesData) {
             mycoin.addValidator(item.address, item.stake);
         }
-        yield mycoin.addNewBlock(new CryptoBlock_1.CryptoBlock({
-            index: 1,
-            timestamp: "01/06/2020",
-            data: {
-                sender: "Iris Ljesnjanin",
-                recipient: "Cosima Mielke",
-                quantity: 100,
-            },
-        }));
-        yield mycoin.addNewBlock(new CryptoBlock_1.CryptoBlock({
-            index: 2,
-            timestamp: "01/07/2020",
-            data: {
-                sender: "Vitaly Friedman",
-                recipient: "Ricardo Gimenes",
-                quantity: 100,
-            },
-        }));
-        console.log("Blockchain initialized with 2 blocks.");
+        // Fetching transactions from database
+        console.log("Fetching transactions...");
+        const transaction = yield (0, transactions_1.getTransactions)();
+        console.log("Adding transactions to blockchain...");
+        for (const item of transaction) {
+            yield mycoin.addTransaction(item.sender, item.recipient, item.quantity, item.timestamp);
+        }
+        console.log(`Blockchain initialized with ${transaction.length} blocks.`);
         return mycoin;
     });
 }

@@ -1,6 +1,6 @@
-import { CryptoBlock } from "../lib/CryptoBlock";
 import CryptoBlockchain from "../lib/CryptoBlockchain";
 import { getValidators } from "../services/stakes";
+import { getTransactions } from "../services/transactions";
 
 export async function initializeBlockchain(): Promise<CryptoBlockchain> {
 	console.log("Fetching validators...");
@@ -12,31 +12,21 @@ export async function initializeBlockchain(): Promise<CryptoBlockchain> {
 		mycoin.addValidator(item.address, item.stake);
 	}
 
-	await mycoin.addNewBlock(
-		new CryptoBlock({
-			index: 1,
-			timestamp: "01/06/2020",
-			data: {
-				sender: "Iris Ljesnjanin",
-				recipient: "Cosima Mielke",
-				quantity: 100,
-			},
-		})
-	);
+	// Fetching transactions from database
+	console.log("Fetching transactions...");
+	const transaction = await getTransactions();
 
-	await mycoin.addNewBlock(
-		new CryptoBlock({
-			index: 2,
-			timestamp: "01/07/2020",
-			data: {
-				sender: "Vitaly Friedman",
-				recipient: "Ricardo Gimenes",
-				quantity: 100,
-			},
-		})
-	);
+	console.log("Adding transactions to blockchain...");
+	for (const item of transaction) {
+		await mycoin.addTransaction(
+			item.sender,
+			item.recipient,
+			item.quantity,
+			item.timestamp
+		);
+	}
 
-	console.log("Blockchain initialized with 2 blocks.");
+	console.log(`Blockchain initialized with ${transaction.length} blocks.`);
 
 	return mycoin;
 }

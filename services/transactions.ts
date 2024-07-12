@@ -54,4 +54,12 @@ async function sendTransaction(
 	return transaction;
 }
 
-export { insertTransaction, sendTransaction };
+async function getTransactions() {
+	const result = await sql`
+		SELECT * FROM Transactions
+		ORDER BY timestamp ASC;
+	`;
+	return result.rows;
+}
+
+export { getTransactions, insertTransaction, sendTransaction };

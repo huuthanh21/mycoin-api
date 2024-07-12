@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getTransactions = getTransactions;
 exports.insertTransaction = insertTransaction;
 exports.sendTransaction = sendTransaction;
 const postgres_1 = require("@vercel/postgres");
@@ -55,5 +56,14 @@ function sendTransaction(sender, recipient, amount, privateKey) {
             timestamp: result.timestamp,
         };
         return transaction;
+    });
+}
+function getTransactions() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const result = yield (0, postgres_1.sql) `
+		SELECT * FROM Transactions
+		ORDER BY timestamp ASC;
+	`;
+        return result.rows;
     });
 }
