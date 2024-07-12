@@ -45,10 +45,11 @@ async function sendTransaction(
 	// Insert transaction
 	const result = await insertTransaction(sender, recipient, amount);
 	const transaction = {
+		id: result.id as number,
 		sender,
 		recipient,
 		amount,
-		timestamp: result.timestamp,
+		timestamp: result.timestamp as string,
 	};
 	return transaction;
 }

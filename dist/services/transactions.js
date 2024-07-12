@@ -48,6 +48,7 @@ function sendTransaction(sender, recipient, amount, privateKey) {
         // Insert transaction
         const result = yield insertTransaction(sender, recipient, amount);
         const transaction = {
+            id: result.id,
             sender,
             recipient,
             amount,
