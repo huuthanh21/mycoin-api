@@ -99,6 +99,25 @@ class CryptoBlockchain {
 		return await this.rewardValidator(validator);
 	}
 
+	async addTransaction(
+		sender: string,
+		recipient: string,
+		amount: number,
+		timestamp: string
+	) {
+		const newBlock = new CryptoBlock({
+			index: this.obtainLatestBlock().index + 1,
+			timestamp,
+			data: {
+				sender,
+				recipient,
+				quantity: amount,
+			},
+			precedingHash: this.obtainLatestBlock().hash,
+		});
+		this.blockchain.push(newBlock);
+	}
+
 	checkChainValidity(): boolean {
 		for (let i = 1; i < this.blockchain.length; i++) {
 			const currentBlock = this.blockchain[i];

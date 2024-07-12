@@ -87,6 +87,21 @@ class CryptoBlockchain {
             return yield this.rewardValidator(validator);
         });
     }
+    addTransaction(sender, recipient, amount, timestamp) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const newBlock = new CryptoBlock_1.CryptoBlock({
+                index: this.obtainLatestBlock().index + 1,
+                timestamp,
+                data: {
+                    sender,
+                    recipient,
+                    quantity: amount,
+                },
+                precedingHash: this.obtainLatestBlock().hash,
+            });
+            this.blockchain.push(newBlock);
+        });
+    }
     checkChainValidity() {
         for (let i = 1; i < this.blockchain.length; i++) {
             const currentBlock = this.blockchain[i];
