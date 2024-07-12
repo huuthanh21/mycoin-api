@@ -39,6 +39,23 @@ router.get("/create-wallet-table.ts", (req, res) => __awaiter(void 0, void 0, vo
         return res.status(500).json({ error });
     }
 }));
+router.get("/create-transactions-table.ts", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, postgres_1.sql) `
+				CREATE TABLE transactions (
+					id SERIAL PRIMARY KEY,
+					sender VARCHAR(255) NOT NULL,
+					recipient VARCHAR(255) NOT NULL,
+					amount DOUBLE PRECISION NOT NULL,
+					timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+				);
+			`;
+        return res.status(200).json({ result });
+    }
+    catch (error) {
+        return res.status(500).json({ error });
+    }
+}));
 router.get("/insert-wallet.ts", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const wallet = Wallet_1.Wallet.createRandom();
     wallet.logWallet();
@@ -68,6 +85,15 @@ router.get("/drop-wallet-table.ts", (req, res) => __awaiter(void 0, void 0, void
 router.get("/db/drop-stakes-table.ts", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, postgres_1.sql) `DROP TABLE Stakes;`;
+        return res.status(200).json({ result });
+    }
+    catch (error) {
+        return res.status(500).json({ error });
+    }
+}));
+router.get("/db/drop-transactions-table.ts", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, postgres_1.sql) `DROP TABLE Transactions;`;
         return res.status(200).json({ result });
     }
     catch (error) {

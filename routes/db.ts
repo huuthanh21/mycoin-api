@@ -33,6 +33,26 @@ router.get("/create-wallet-table.ts", async (req: Request, res: Response) => {
 	}
 });
 
+router.get(
+	"/create-transactions-table.ts",
+	async (req: Request, res: Response) => {
+		try {
+			const result = await sql`
+				CREATE TABLE transactions (
+					id SERIAL PRIMARY KEY,
+					sender VARCHAR(255) NOT NULL,
+					recipient VARCHAR(255) NOT NULL,
+					amount DOUBLE PRECISION NOT NULL,
+					timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+				);
+			`;
+			return res.status(200).json({ result });
+		} catch (error) {
+			return res.status(500).json({ error });
+		}
+	}
+);
+
 router.get("/insert-wallet.ts", async (req: Request, res: Response) => {
 	const wallet = Wallet.createRandom();
 	wallet.logWallet();
@@ -68,5 +88,17 @@ router.get("/db/drop-stakes-table.ts", async (req: Request, res: Response) => {
 		return res.status(500).json({ error });
 	}
 });
+
+router.get(
+	"/db/drop-transactions-table.ts",
+	async (req: Request, res: Response) => {
+		try {
+			const result = await sql`DROP TABLE Transactions;`;
+			return res.status(200).json({ result });
+		} catch (error) {
+			return res.status(500).json({ error });
+		}
+	}
+);
 
 export default router;
