@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 import { Wallet } from "../lib/Wallet";
 import { getStakeAmount } from "../services/stakes";
 import {
+	getWalletWithAddress,
 	getWalletWithMnemonic,
 	getWalletWithPrivateKey,
 	insertWallet,
@@ -20,6 +21,19 @@ router.get("/random-private-key", (req: Request, res: Response) => {
 router.get("/random-mnemonic", (req: Request, res: Response) => {
 	try {
 		return res.status(200).json({ mnemonic: Wallet.randomMnemonic() });
+	} catch (error) {
+		return res.status(500).json({ error });
+	}
+});
+
+router.get("/getFromAddress/:address", async (req: Request, res: Response) => {
+	try {
+		const address = req.params.address;
+		const wallet = await getWalletWithAddress(address);
+		if (!wallet) {
+			return res.status(404).json({ error: "Wallet not found" });
+		}
+		return res.status(200).json(wallet);
 	} catch (error) {
 		return res.status(500).json({ error });
 	}

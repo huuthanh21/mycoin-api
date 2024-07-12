@@ -52,4 +52,20 @@ async function getWalletWithMnemonic(mnemonic: string) {
 	return { address, privateKey: wallet.getPrivateKey(), stake };
 }
 
-export { getWalletWithMnemonic, getWalletWithPrivateKey, insertWallet };
+async function getWalletWithAddress(address: string) {
+	const wallet_result = await sql`
+		SELECT * FROM Wallets WHERE address = ${address};
+	`;
+	if (wallet_result.rowCount === 0) {
+		return null;
+	}
+	const stake = await getStakeAmount(address);
+	return { address, stake };
+}
+
+export {
+	getWalletWithAddress,
+	getWalletWithMnemonic,
+	getWalletWithPrivateKey,
+	insertWallet,
+};
