@@ -5,8 +5,8 @@ var logger = require("morgan");
 
 import cors from "cors";
 import apiRouter from "./routes/api";
+import transactionRouter from "./routes/transaction";
 import walletRouter from "./routes/wallet";
-import runDevScript from "./utils/dev-script";
 
 const app = express();
 
@@ -20,6 +20,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api", apiRouter);
 app.use("/wallet", walletRouter);
+app.use("/transaction", transactionRouter);
 
 app.get("/", (req: Request, res: Response) => {
 	res.send("Hello World!");
