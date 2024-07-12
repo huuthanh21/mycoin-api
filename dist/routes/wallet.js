@@ -47,7 +47,11 @@ router.get("/getFromMnemonic/:mnemonic", (req, res) => __awaiter(void 0, void 0,
     try {
         const mnemonic = req.params.mnemonic;
         console.log(mnemonic);
-        return res.status(200).json(yield (0, wallets_1.getWalletWithMnemonic)(mnemonic));
+        const wallet = yield (0, wallets_1.getWalletWithMnemonic)(mnemonic);
+        if (!wallet) {
+            return res.status(404).json({ error: "Wallet not found" });
+        }
+        return res.status(200).json(wallet);
     }
     catch (error) {
         return res.status(500).json({ error });
@@ -69,9 +73,7 @@ router.post("/createFromMnemonic", (req, res) => __awaiter(void 0, void 0, void 
         const { mnemonic } = req.body;
         const wallet = Wallet_1.Wallet.fromMnemonic(mnemonic);
         const walletResult = yield (0, wallets_1.insertWallet)(wallet);
-        return res
-            .status(200)
-            .json({
+        return res.status(200).json({
             address: walletResult.address,
             privateKey: wallet.getPrivateKey(),
         });

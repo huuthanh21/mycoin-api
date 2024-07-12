@@ -59,6 +59,6 @@ function getWalletWithMnemonic(mnemonic) {
         console.log(address);
         // Get wallet's stake
         const stake = yield (0, stakes_1.getStakeAmount)(address);
-        return { address, stake };
+        return { address, privateKey: wallet.getPrivateKey(), stake };
     });
 }

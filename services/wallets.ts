@@ -49,7 +49,7 @@ async function getWalletWithMnemonic(mnemonic: string) {
 
 	// Get wallet's stake
 	const stake = await getStakeAmount(address);
-	return { address, stake };
+	return { address, privateKey: wallet.getPrivateKey(), stake };
 }
 
 export { getWalletWithMnemonic, getWalletWithPrivateKey, insertWallet };
