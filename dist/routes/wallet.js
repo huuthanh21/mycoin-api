@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const Wallet_1 = require("../lib/Wallet");
+const stakes_1 = require("../services/stakes");
 const wallets_1 = require("../services/wallets");
 const router = (0, express_1.Router)();
 router.get("/random-private-key", (req, res) => {
@@ -69,6 +70,15 @@ router.post("/createFromMnemonic", (req, res) => __awaiter(void 0, void 0, void 
         const wallet = Wallet_1.Wallet.fromMnemonic(mnemonic);
         const id = yield (0, wallets_1.insertWallet)(wallet);
         return res.status(200).json({ id });
+    }
+    catch (error) {
+        return res.status(500).json({ error });
+    }
+}));
+router.get("/balance/:address", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const balance = yield (0, stakes_1.getStakeAmount)(req.params.address);
+        return res.status(200).json({ balance });
     }
     catch (error) {
         return res.status(500).json({ error });

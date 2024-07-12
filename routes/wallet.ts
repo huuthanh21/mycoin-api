@@ -1,5 +1,6 @@
 import { Request, Response, Router } from "express";
 import { Wallet } from "../lib/Wallet";
+import { getStakeAmount } from "../services/stakes";
 import {
 	getWalletWithMnemonic,
 	getWalletWithPrivateKey,
@@ -75,6 +76,15 @@ router.post("/createFromMnemonic", async (req: Request, res: Response) => {
 		const id = await insertWallet(wallet);
 
 		return res.status(200).json({ id });
+	} catch (error) {
+		return res.status(500).json({ error });
+	}
+});
+
+router.get("/balance/:address", async (req: Request, res: Response) => {
+	try {
+		const balance = await getStakeAmount(req.params.address);
+		return res.status(200).json({ balance });
 	} catch (error) {
 		return res.status(500).json({ error });
 	}
