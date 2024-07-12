@@ -57,8 +57,8 @@ router.post("/createFromPrivateKey", (req, res) => __awaiter(void 0, void 0, voi
     try {
         const { privateKey } = req.body;
         const wallet = Wallet_1.Wallet.fromPrivateKey(privateKey);
-        const id = yield (0, wallets_1.insertWallet)(wallet);
-        return res.status(200).json({ id });
+        const walletResult = yield (0, wallets_1.insertWallet)(wallet);
+        return res.status(200).json({ address: walletResult.address });
     }
     catch (error) {
         return res.status(500).json({ error });
@@ -68,8 +68,13 @@ router.post("/createFromMnemonic", (req, res) => __awaiter(void 0, void 0, void 
     try {
         const { mnemonic } = req.body;
         const wallet = Wallet_1.Wallet.fromMnemonic(mnemonic);
-        const id = yield (0, wallets_1.insertWallet)(wallet);
-        return res.status(200).json({ id });
+        const walletResult = yield (0, wallets_1.insertWallet)(wallet);
+        return res
+            .status(200)
+            .json({
+            address: walletResult.address,
+            privateKey: wallet.getPrivateKey(),
+        });
     }
     catch (error) {
         return res.status(500).json({ error });

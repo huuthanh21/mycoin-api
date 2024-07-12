@@ -1,5 +1,4 @@
 import { sql } from "@vercel/postgres";
-import bcrypt from "bcrypt";
 import { Wallet } from "../lib/Wallet";
 import { getStakeAmount, insertStake } from "./stakes";
 
@@ -9,7 +8,7 @@ async function insertWallet(wallet: Wallet) {
     VALUES (${wallet.address}, ${
 		wallet.publicKey
 	}, ${wallet.getEncryptedPrivateKey()})
-    RETURNING id;
+    RETURNING *;
   `;
 
 	const stake_result = await insertStake(wallet.address, 0);
@@ -17,7 +16,7 @@ async function insertWallet(wallet: Wallet) {
 		throw new Error("Failed to insert stake");
 	}
 
-	return wallet_result.rows[0].id;
+	return wallet_result.rows[0];
 }
 
 async function getWalletWithPrivateKey(privateKey: string) {

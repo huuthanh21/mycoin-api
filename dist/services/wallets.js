@@ -20,13 +20,13 @@ function insertWallet(wallet) {
         const wallet_result = yield (0, postgres_1.sql) `
     INSERT INTO Wallets (address, public_key, encrypted_private_key)
     VALUES (${wallet.address}, ${wallet.publicKey}, ${wallet.getEncryptedPrivateKey()})
-    RETURNING id;
+    RETURNING *;
   `;
         const stake_result = yield (0, stakes_1.insertStake)(wallet.address, 0);
         if (!stake_result) {
             throw new Error("Failed to insert stake");
         }
-        return wallet_result.rows[0].id;
+        return wallet_result.rows[0];
     });
 }
 function getWalletWithPrivateKey(privateKey) {
