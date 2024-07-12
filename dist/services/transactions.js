@@ -9,6 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.insertTransaction = insertTransaction;
+exports.sendTransaction = sendTransaction;
 const postgres_1 = require("@vercel/postgres");
 const stakes_1 = require("./stakes");
 const wallets_1 = require("./wallets");
@@ -24,6 +26,8 @@ function insertTransaction(sender, recipient, amount) {
 }
 function sendTransaction(sender, recipient, amount, privateKey) {
     return __awaiter(this, void 0, void 0, function* () {
+        // Helper function to add two numbers
+        const add = (a, b) => Number((a + b).toFixed(8));
         // Get sender's wallet
         const senderWallet = yield (0, wallets_1.getWalletWithPrivateKey)(privateKey);
         if (!senderWallet) {
@@ -38,9 +42,9 @@ function sendTransaction(sender, recipient, amount, privateKey) {
             throw new Error("Recipient does not exist");
         }
         // Update sender's stake
-        yield (0, stakes_1.updateStakeAmount)(sender, senderWallet.stake - amount);
+        yield (0, stakes_1.updateStakeAmount)(sender, add(senderWallet.stake, -amount));
         // Update recipient's stake
-        yield (0, stakes_1.updateStakeAmount)(recipient, recipientWallet.stake + amount);
+        yield (0, stakes_1.updateStakeAmount)(recipient, add(recipientWallet.stake, amount));
         // Insert transaction
         const result = yield insertTransaction(sender, recipient, amount);
         const transaction = {

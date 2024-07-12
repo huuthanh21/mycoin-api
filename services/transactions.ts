@@ -21,6 +21,9 @@ async function sendTransaction(
 	amount: number,
 	privateKey: string
 ) {
+	// Helper function to add two numbers
+	const add = (a: number, b: number) => Number((a + b).toFixed(8));
+
 	// Get sender's wallet
 	const senderWallet = await getWalletWithPrivateKey(privateKey);
 	if (!senderWallet) {
@@ -35,9 +38,9 @@ async function sendTransaction(
 		throw new Error("Recipient does not exist");
 	}
 	// Update sender's stake
-	await updateStakeAmount(sender, senderWallet.stake - amount);
+	await updateStakeAmount(sender, add(senderWallet.stake, -amount));
 	// Update recipient's stake
-	await updateStakeAmount(recipient, recipientWallet.stake + amount);
+	await updateStakeAmount(recipient, add(recipientWallet.stake, amount));
 
 	// Insert transaction
 	const result = await insertTransaction(sender, recipient, amount);
@@ -49,3 +52,5 @@ async function sendTransaction(
 	};
 	return transaction;
 }
+
+export { insertTransaction, sendTransaction };
