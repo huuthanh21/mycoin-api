@@ -88,10 +88,10 @@ class CryptoBlockchain {
 		// Select a validator
 		const validator = this.selectValidator();
 
-		// TODO: Add the validator address to the block
 		const newBlock = new CryptoBlock({
 			...data,
 			precedingHash: this.obtainLatestBlock().hash,
+			validator,
 		});
 		this.blockchain.push(newBlock);
 
@@ -105,7 +105,7 @@ class CryptoBlockchain {
 		amount: number,
 		timestamp: string
 	) {
-		const newBlock = new CryptoBlock({
+		return this.addNewBlock({
 			index: this.obtainLatestBlock().index + 1,
 			timestamp,
 			data: {
@@ -113,9 +113,7 @@ class CryptoBlockchain {
 				recipient,
 				quantity: amount,
 			},
-			precedingHash: this.obtainLatestBlock().hash,
 		});
-		this.blockchain.push(newBlock);
 	}
 
 	checkChainValidity(): boolean {

@@ -80,8 +80,7 @@ class CryptoBlockchain {
         return __awaiter(this, void 0, void 0, function* () {
             // Select a validator
             const validator = this.selectValidator();
-            // TODO: Add the validator address to the block
-            const newBlock = new CryptoBlock_1.CryptoBlock(Object.assign(Object.assign({}, data), { precedingHash: this.obtainLatestBlock().hash }));
+            const newBlock = new CryptoBlock_1.CryptoBlock(Object.assign(Object.assign({}, data), { precedingHash: this.obtainLatestBlock().hash, validator }));
             this.blockchain.push(newBlock);
             // Update the stake of the validator
             return yield this.rewardValidator(validator);
@@ -89,7 +88,7 @@ class CryptoBlockchain {
     }
     addTransaction(sender, recipient, amount, timestamp) {
         return __awaiter(this, void 0, void 0, function* () {
-            const newBlock = new CryptoBlock_1.CryptoBlock({
+            return this.addNewBlock({
                 index: this.obtainLatestBlock().index + 1,
                 timestamp,
                 data: {
@@ -97,9 +96,7 @@ class CryptoBlockchain {
                     recipient,
                     quantity: amount,
                 },
-                precedingHash: this.obtainLatestBlock().hash,
             });
-            this.blockchain.push(newBlock);
         });
     }
     checkChainValidity() {

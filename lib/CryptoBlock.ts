@@ -11,6 +11,7 @@ type CryptoBlockInput = {
 	timestamp: string;
 	data: CryptoBlockData | string;
 	precedingHash?: string;
+	validator?: string;
 };
 
 class CryptoBlock {
@@ -18,6 +19,7 @@ class CryptoBlock {
 	timestamp: string;
 	data: CryptoBlockData | string;
 	precedingHash: string;
+	validator: string;
 	hash: string;
 
 	constructor({
@@ -25,12 +27,14 @@ class CryptoBlock {
 		timestamp,
 		data,
 		precedingHash = " ",
+		validator = " ",
 	}: CryptoBlockInput) {
 		this.index = index;
 		this.timestamp = timestamp;
 		this.data = data;
 		this.precedingHash = precedingHash;
 		this.hash = this.computeHash();
+		this.validator = validator;
 	}
 
 	computeHash(): string {
@@ -38,6 +42,7 @@ class CryptoBlock {
 			this.index +
 				this.precedingHash +
 				this.timestamp +
+				this.validator +
 				JSON.stringify(this.data)
 		).toString();
 	}
