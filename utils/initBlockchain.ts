@@ -21,7 +21,7 @@ export async function initializeBlockchain(): Promise<CryptoBlockchain> {
 		await mycoin.addTransaction(
 			item.sender,
 			item.recipient,
-			item.quantity,
+			item.amount,
 			item.timestamp
 		);
 	}

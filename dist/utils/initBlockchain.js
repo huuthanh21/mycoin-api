@@ -30,7 +30,7 @@ function initializeBlockchain() {
         const transaction = yield (0, transactions_1.getTransactions)();
         console.log("Adding transactions to blockchain...");
         for (const item of transaction) {
-            yield mycoin.addTransaction(item.sender, item.recipient, item.quantity, item.timestamp);
+            yield mycoin.addTransaction(item.sender, item.recipient, item.amount, item.timestamp);
         }
         console.log(`Blockchain initialized with ${transaction.length} blocks.`);
         return mycoin;
