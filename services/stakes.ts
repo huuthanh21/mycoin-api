@@ -1,10 +1,10 @@
 import { sql } from "@vercel/postgres";
 import { MINIMUM_STAKE } from "../config/constants";
 
-async function getValidators(): Promise<any> {
-	const result = await sql`SELECT * FROM Stakes`;
+async function getValidators(): Promise<{ address: string; stake: number }[]> {
+	const result = await sql`SELECT address, CAST(stake AS FLOAT) FROM Stakes`;
 	const filtered = result.rows.filter((row) => row.stake > MINIMUM_STAKE);
-	return filtered;
+	return filtered as { address: string; stake: number }[];
 }
 
 async function insertStake(address: string, amount: number): Promise<boolean> {

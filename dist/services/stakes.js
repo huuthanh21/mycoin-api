@@ -17,7 +17,7 @@ const postgres_1 = require("@vercel/postgres");
 const constants_1 = require("../config/constants");
 function getValidators() {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield (0, postgres_1.sql) `SELECT * FROM Stakes`;
+        const result = yield (0, postgres_1.sql) `SELECT address, CAST(stake AS FLOAT) FROM Stakes`;
         const filtered = result.rows.filter((row) => row.stake > constants_1.MINIMUM_STAKE);
         return filtered;
     });
