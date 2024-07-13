@@ -29,4 +29,13 @@ router.post("/send", (req, res) => __awaiter(void 0, void 0, void 0, function* (
         return res.status(500).json({ error });
     }
 }));
+router.get("/getAll", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const transactions = yield (0, transactions_1.getTransactions)("DESC");
+        return res.status(200).json(transactions);
+    }
+    catch (error) {
+        return res.status(500).json({ error });
+    }
+}));
 exports.default = router;

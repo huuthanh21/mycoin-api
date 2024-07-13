@@ -59,11 +59,14 @@ function sendTransaction(sender, recipient, amount, privateKey) {
     });
 }
 function getTransactions() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const result = yield (0, postgres_1.sql) `
-		SELECT * FROM Transactions
-		ORDER BY timestamp ASC;
-	`;
-        return result.rows;
+    return __awaiter(this, arguments, void 0, function* (order = "ASC") {
+        switch (order) {
+            case "ASC":
+                return (yield (0, postgres_1.sql) `SELECT * FROM Transactions ORDER BY timestamp ASC;`)
+                    .rows;
+            case "DESC":
+                return (yield (0, postgres_1.sql) `SELECT * FROM Transactions ORDER BY timestamp DESC;`)
+                    .rows;
+        }
     });
 }

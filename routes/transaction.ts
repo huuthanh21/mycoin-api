@@ -1,6 +1,6 @@
 import { Router } from "express";
 import BlockchainSingleton from "../lib/BlockchainSingleton";
-import { sendTransaction } from "../services/transactions";
+import { getTransactions, sendTransaction } from "../services/transactions";
 
 const router = Router();
 
@@ -24,6 +24,15 @@ router.post("/send", async (req, res) => {
 		);
 
 		return res.status(200).json(transaction);
+	} catch (error) {
+		return res.status(500).json({ error });
+	}
+});
+
+router.get("/getAll", async (req, res) => {
+	try {
+		const transactions = await getTransactions("DESC");
+		return res.status(200).json(transactions);
 	} catch (error) {
 		return res.status(500).json({ error });
 	}
