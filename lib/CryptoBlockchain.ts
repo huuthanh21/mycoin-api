@@ -68,36 +68,52 @@ class CryptoBlockchain {
 		throw new Error("No validator selected");
 	}
 
-	setStake(address: string, stake: number) {
-		console.log("Setting stake for", address, "to", stake);
+	async setStake(address: string, stake: number) {
 		this.validators.set(address, { address, stake });
-		updateStakeAmount(address, stake).then((result) => {
+		await updateStakeAmount(address, stake).then((result) => {
 			if (!result) {
 				throw new Error("Failed to update stake for " + address);
 			}
 		});
 	}
 
-	rewardValidator(address: string) {
+	async rewardValidator(address: string) {
 		const newStake = Number(
 			(this.validators.get(address)!.stake + REWARD).toFixed(8)
 		);
-		this.setStake(address, newStake);
+		await this.setStake(address, newStake);
 	}
 
-	addNewBlock(data: CryptoBlockInput) {
+	async addNewBlock(data: CryptoBlockInput) {
 		// Select a validator
 		const validator = this.selectValidator();
 
-		// TODO: Add the validator address to the block
 		const newBlock = new CryptoBlock({
 			...data,
 			precedingHash: this.obtainLatestBlock().hash,
+			validator,
 		});
 		this.blockchain.push(newBlock);
 
 		// Update the stake of the validator
-		return this.rewardValidator(validator);
+		return await this.rewardValidator(validator);
+	}
+
+	async addTransaction(
+		sender: string,
+		recipient: string,
+		amount: number,
+		timestamp: string
+	) {
+		return this.addNewBlock({
+			index: this.obtainLatestBlock().index + 1,
+			timestamp,
+			data: {
+				sender,
+				recipient,
+				quantity: amount,
+			},
+		});
 	}
 
 	checkChainValidity(): boolean {

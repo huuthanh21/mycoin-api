@@ -30,6 +30,19 @@ router.get("/random-mnemonic", (req, res) => {
         return res.status(500).json({ error });
     }
 });
+router.get("/getFromAddress/:address", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const address = req.params.address;
+        const wallet = yield (0, wallets_1.getWalletWithAddress)(address);
+        if (!wallet) {
+            return res.status(404).json({ error: "Wallet not found" });
+        }
+        return res.status(200).json(wallet);
+    }
+    catch (error) {
+        return res.status(500).json({ error });
+    }
+}));
 router.get("/getFromPrivateKey/:privateKey", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const privateKey = req.params.privateKey;

@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getWalletWithAddress = getWalletWithAddress;
 exports.getWalletWithMnemonic = getWalletWithMnemonic;
 exports.getWalletWithPrivateKey = getWalletWithPrivateKey;
 exports.insertWallet = insertWallet;
@@ -60,5 +61,17 @@ function getWalletWithMnemonic(mnemonic) {
         // Get wallet's stake
         const stake = yield (0, stakes_1.getStakeAmount)(address);
         return { address, privateKey: wallet.getPrivateKey(), stake };
+    });
+}
+function getWalletWithAddress(address) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const wallet_result = yield (0, postgres_1.sql) `
+		SELECT * FROM Wallets WHERE address = ${address};
+	`;
+        if (wallet_result.rowCount === 0) {
+            return null;
+        }
+        const stake = yield (0, stakes_1.getStakeAmount)(address);
+        return { address, stake };
     });
 }
