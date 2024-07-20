@@ -12,3 +12,6 @@ This is the backend server for [MyCoin](https://github.com/huuthanh21/mycoin)
 
 ### Run in Development mode
 Run `$env:DEBUG='mycoin-api:*'; npm run dev`
+
+## References
+[How To Build A Simple Cryptocurrency Blockchain In Node.js](https://www.smashingmagazine.com/2020/02/cryptocurrency-blockchain-node-js/)
