@@ -1,11 +1,14 @@
 # MyCoin API
+## Important
+This is the backend server for [MyCoin](https://github.com/huuthanh21/mycoin)
+
+## Deployed with Vercel at [mycoin-api.vercel.app](https://mycoin-api.vercel.app)
 
 ## How to run the app
 
 1. Run `npm install`
-2. Build with `npm build`
-3. Start the application by running the `npm start` command and opening your web browser to 'http://localhost:3000/api'.
+2. Build with `npm run build`
+3. Start the application by running the `npm start` command and opening your web browser to [http://localhost:3030](http://localhost:3030).
 
-## Development
-
-1. Run `$env:DEBUG='mycoin-api:*'; npm run dev`
+### Run in Development mode
+Run `$env:DEBUG='mycoin-api:*'; npm run dev`
